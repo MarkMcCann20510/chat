@@ -4,19 +4,19 @@ from nicegui import ui
 messages = []
 
 @ui.refreshable
-def chat_messages(own_id)
-  for user_id, avatar, text in messages:
-      ui.chat_messages(avatar=avatar, text=text, sent=user_id==own_id)
+def chat_messages(own_id):
+    for user_id, avatar, text in messages:
+        ui.chat_message(avatar=avatar, text=text, sent=user_id==own_id)
 
 @ui.page('/')
 def index():
     def send():
         messages.append((user, avatar, text.value))
-        chat_message.refresh()
+        chat_messages.refresh()
         text.value = ''
 
     user = str(uuid4())
-    avatar = f'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkM3ZK8QC0-7bKCoV0wg5wRrOjByhBtRvfwg&s'
+    avatar = f'https://robohash.org/{user}?bgset=bg2'
     with ui.column().classes('w-full items-stretch'):
         chat_messages(user)
 
@@ -28,5 +28,4 @@ def index():
                 .props('rounded outlined').classes('flex-grow') \
                 .on('keydown.enter', send)
 
-  ui.run()
-    
+ui.run()
